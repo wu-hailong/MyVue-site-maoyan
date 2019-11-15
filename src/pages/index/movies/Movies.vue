@@ -7,17 +7,20 @@
             <i class="yo-ico">&#xf033;</i>
           </div>
           <div>
-            <li class="active">正在热映</li>
-            <li>即将上映</li>
+            <router-link tag="li" to="/index/movies/intheater" active-class="active">正在热映</router-link>
+            <router-link tag="li" to="/index/movies/comingsoon" active-class="active">即将上映</router-link>
           </div>
           <div>
             <i class="yo-ico">&#xf067;</i>
           </div>
         </nav>
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
+
+
 export default {
 
 }
@@ -26,6 +29,9 @@ export default {
 <style lang="stylus" scoped>
 @import "~assets/stylus/border.styl";
 .movies-wrapper
+  height 100%
+  display flex
+  flex-direction column
   header
     text-align center
     line-height .5rem
@@ -53,6 +59,7 @@ export default {
         text-align center
         line-height .44rem
         margin 0 .12rem
+        overflow hidden
         &.active
           color #e54847
           $border(0 0 4px 0,#e54847)
