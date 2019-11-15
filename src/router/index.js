@@ -1,14 +1,39 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Index from '../pages/Index.vue'
+
+import Index from 'pages/index/Index'
+import Cinema from 'pages/index/Cinema'
+import Mine from 'pages/index/Mine'
+import Movies from 'pages/index/movies/Movies'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'index',
-    component: Index
+    redirect: '/index/movies'
+   },
+   {
+     path: '/index',
+     name: 'index',
+     component:Index,
+     children:[
+       {
+         path : 'movies',
+         name : 'movies',
+         component : Movies
+       },
+       {
+         path : 'cinema',
+         name : 'cinema',
+         component : Cinema
+       },
+       {
+         path : 'mine',
+         name : 'mine',
+         component : Mine
+       }
+     ]
    }
 ]
 
