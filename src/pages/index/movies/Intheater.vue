@@ -1,6 +1,6 @@
 <template>
    <section class="list-wrapper">
-            <MovieList></MovieList>
+            <MovieList type="intheater"></MovieList>
    </section>
 </template>
 

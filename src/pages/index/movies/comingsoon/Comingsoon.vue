@@ -3,7 +3,7 @@
      <div class="sroll-wrap">
         <RecentExpected></RecentExpected>     
         <div class="expected-list">
-          <MovieList></MovieList>
+          <MovieList type="comingsoon"></MovieList>
         </div>
      </div>
  </section>
