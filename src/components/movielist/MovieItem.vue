@@ -8,32 +8,32 @@
           <div>
             <span v-if="movie.sc == 0">暂无评分</span>
             <span v-if="movie.sc !== 0">观众评</span>
-            <span v-if="movie.sc !== 0">{{movie.sc}}</span> 
+            <span v-if="movie.sc !== 0"> {{movie.sc}}</span> 
           </div>
           <div>{{movie.star}}</div>
           <div>{{movie.showInfo}}</div>
         </div>
-        <div class="btn">购票</div>
+        <TypeButton :movie="movie"></TypeButton>
       </li>
 </template>
 
 <script>
+import TypeButton from "./TypeButton"
 export default {
-  props: {
-    movie:{
-      type:Object
+    props: {
+      movie:{
+        type:Object
+      },
+      index:Number
     },
-    index:Number
-  },
-  filters: {
-    wh(value, args) {
-      return value.replace('w.h', args)
+    components: {
+      TypeButton
     }
-  }
 }
 </script>
 
 <style lang="stylus" scoped>
+@import '~assets/stylus/border.styl';
   li
     height 1.14rem
     $border(0 0 1px 0)
@@ -46,12 +46,16 @@ export default {
         width 100%
         height 100%
     .content-wrap
+      min-width 0
       flex 1
       div
         padding-left .1rem
         font-size .13rem
         color #666
-        line-height .13rem  
+        line-height .13rem
+        white-space nowrap 
+        overflow hidden
+        text-overflow ellipsis  
       >div:nth-child(1)
         line-height .17rem
         >span:first-child
@@ -62,20 +66,27 @@ export default {
           white-space nowrap 
           overflow hidden
           text-overflow ellipsis
-        // >span:last-child
-
+        >span:last-child
+          color #3c9fe6
       >div:nth-child(2)
         margin .07rem 0 .06rem
-      //  >div:nth-child(3)
+        >span:last-child
+          font-weight 700
+          color #faaf00
+          font-size .15rem
       >div:nth-child(4)
         margin-top .06rem
     .btn
-        width .47rem
-        height .27rem
-        text-align center
-        line-height .27rem
-        background-color #f03d37
-        color #fff
-        border-radius 4px
-        font-size 12px
+      width .47rem
+      height .27rem
+      text-align center
+      line-height .27rem
+      color #fff
+      border-radius 4px
+      font-size 12px
+      background-color #f03d37
+    .blue-btn
+      background-color #3c9fe6
+    .yellow-btn
+      background-color #faaf00
 </style>

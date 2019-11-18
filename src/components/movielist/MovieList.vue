@@ -1,5 +1,5 @@
 <template>
-  <section class="list-wrapper">
+<div>
     <ul class="movie-list">
       <MovieItem
         v-for="(movie,index) in movieList" 
@@ -9,7 +9,7 @@
       > 
       </MovieItem>
     </ul>
-  </section>
+</div>
 </template>
 
 <script>
@@ -56,7 +56,6 @@ export default {
 
         await this.$nextTick()
         bScroll.refresh()
-        
         page++
         }else{
           console.log("没有数据了啊！！")
@@ -68,10 +67,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import '~assets/stylus/border.styl';
-.list-wrapper
-  flex 1
-  overflow hidden
-  .movie-list
+.movie-list
     padding 0 .14rem
 </style>

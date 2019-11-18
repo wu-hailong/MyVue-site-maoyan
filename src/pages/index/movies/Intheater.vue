@@ -1,5 +1,7 @@
 <template>
-   <MovieList></MovieList>
+   <section class="list-wrapper">
+            <MovieList></MovieList>
+   </section>
 </template>
 
 <script>
@@ -11,6 +13,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="stylus" scoped>
+.list-wrapper
+  flex 1
+  overflow hidden
 </style>
