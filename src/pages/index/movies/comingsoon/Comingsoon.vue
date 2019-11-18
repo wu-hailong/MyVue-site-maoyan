@@ -22,7 +22,7 @@ export default {
 
 <style lang="stylus" scoped>
 .list-wrapper
-  overflow-y scroll
+  overflow hidden
   flex 1
   background #f5f5f5
   .expected-list

@@ -5,11 +5,18 @@
         </div>
         <div class="content-wrap">
           <div><span>{{movie.nm}}</span><span>{{movie.version}}</span></div>
-          <div>
-            <span v-if="movie.sc == 0">暂无评分</span>
-            <span v-if="movie.sc !== 0">观众评</span>
-            <span v-if="movie.sc !== 0"> {{movie.sc}}</span> 
+
+          <div class="wish" v-if="movie.sc === 0 &&  movie.showst !== 3">
+            <span> <i>{{movie.wish}}</i> 人想看</span>
           </div>
+          <div v-else-if="movie.sc === 0 &&  movie.showst === 3">
+            <span>暂无评分</span>
+          </div>
+          <div class="sc" v-else>
+            <span>观众评</span>
+            <span> {{movie.sc}}</span> 
+          </div>
+
           <div>{{movie.star}}</div>
           <div>{{movie.showInfo}}</div>
         </div>
@@ -58,6 +65,7 @@ export default {
         text-overflow ellipsis  
       >div:nth-child(1)
         line-height .17rem
+        margin-bottom  .07rem
         >span:first-child
           font-size .17rem
           color #333
@@ -68,12 +76,17 @@ export default {
           text-overflow ellipsis
         >span:last-child
           color #3c9fe6
-      >div:nth-child(2)
-        margin .07rem 0 .06rem
+      .sc
         >span:last-child
           font-weight 700
           color #faaf00
           font-size .15rem
+      .wish span i 
+        font-weight 700
+        color #faaf00
+        font-size .15rem
+      >div:nth-child(3)
+        margin-top .06rem
       >div:nth-child(4)
         margin-top .06rem
     .btn

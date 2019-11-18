@@ -1,6 +1,6 @@
 <template>
 <div>
-    <ul class="movie-list" v-if="type === 'intheater' ">
+    <ul class="movie-list" v-if="type === 'intheater' && intheaterList.length > 0">
       <MovieItem
         v-for="(movie,index) in intheaterList" 
         :key="movie.id" 
@@ -10,7 +10,7 @@
       </MovieItem>
     </ul>
     <div class="movie-list"
-      v-else
+      v-else-if="type === 'comingsoon' && tempList.length > 0"
       v-for="(item,key) in comingsoonList" 
       :key="key"
       >
@@ -22,6 +22,11 @@
         :index = "index"
       ></MovieItem>
     </div>
+    <van-loading
+     type="circular" 
+     v-if="(type === 'intheater' && intheaterList.length === 0)||(type === 'comingsoon' && tempList.length === 0)"
+     />
+
 </div>
 </template>
 
@@ -30,6 +35,9 @@ import MovieItem from "./MovieItem";
 import { get } from "utils/http";
 import BScroll from 'better-scroll'
 import _ from "lodash";
+import Vue from 'vue';
+import { Loading } from 'vant';
+Vue.use(Loading)
 export default {
   props: ["type"],
   components: {
@@ -38,12 +46,13 @@ export default {
   data () {
     return {
       intheaterList:[],
-      comingsoonList:{}  
+      comingsoonList:{},
+      tempList:[]
     }
   },
-  beforeCreate () {
-    this.tempList = []
-  },
+  // beforeCreate () {
+  //   this.tempList = []
+  // },
   //拼接数据
   joinData(result){
     if(this.type === "intheater"){
@@ -60,6 +69,7 @@ export default {
         ...result.coming
       ]
       // console.log(this.tempList)
+      //数据切片分组
       this.comingsoonList = _.groupBy(this.tempList, 'comingTitle')
       // console.log(this.comingsoonList)
     }
@@ -121,4 +131,19 @@ export default {
 <style lang="stylus" scoped>
 .movie-list
     padding 0 .14rem
+    p
+      font-size .14rem
+      padding-top .12rem
+      line-height .14rem
+.van-loading
+  position absolute
+  top 0
+  left 0
+  right 0
+  bottom 0
+  margin auto
+  width .5rem
+  height .5rem
+  
+
 </style>
