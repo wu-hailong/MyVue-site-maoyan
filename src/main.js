@@ -2,11 +2,11 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import 'assets/reset.css'
-import './filters/imgFilter'
 
 
 Vue.config.productionTip = false
+import 'assets/reset.css'
+import './filters/imgFilter'
 new Vue({
   router,
   store,

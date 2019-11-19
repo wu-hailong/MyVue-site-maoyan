@@ -1,6 +1,7 @@
 <template>
     <div class="movies-wrapper">
         <header>猫眼电影</header>
+        <ToApp v-if="!$store.state.isSticky"></ToApp>
         <nav>
           <div>
             <span>北京</span>
@@ -20,9 +21,11 @@
 
 <script>
 
-
+import ToApp from "components/ToApp"
 export default {
-
+  components: {
+    ToApp
+  }
 }
 </script>
 

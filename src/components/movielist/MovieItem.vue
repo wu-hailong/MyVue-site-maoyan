@@ -1,5 +1,5 @@
 <template>
-      <li>
+      <li @click="toDetail(movie.id)">
         <div class="movie-img">
           <img :src="movie.img  | wh('256.360')" alt="">
         </div>
@@ -35,6 +35,13 @@ export default {
     },
     components: {
       TypeButton
+    },
+    methods: {
+      toDetail(movieId){
+        this.$router.push({ 
+          path: `/detail/${movieId}`
+          })
+      }
     }
 }
 </script>

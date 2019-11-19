@@ -101,7 +101,8 @@ export default {
       // console.log(movieIds)
      let bScroll = new BScroll('.list-wrapper',{
           probeType: 2,
-          pullUpLoad:true
+          pullUpLoad:true,
+          click:true
       })
       let page = 0
       bScroll.on('pullingUp', async() => {
@@ -123,6 +124,10 @@ export default {
           console.log("没有数据了啊！！")
         } 
         bScroll.finishPullUp()
+      })
+      
+      bScroll.on("scroll",()=>{
+        this.$store.commit("setSticky",bScroll.y < -100)
       })
   }
 }
