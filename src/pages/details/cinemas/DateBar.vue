@@ -1,17 +1,26 @@
 <template>
       <ul class="date-bar">
-        <li class="active">今天11月19日</li>
-        <li v-for="time in dateList" :key="time.date">{{time.date}}</li>
-        <!-- <li>今天11月19日</li>
-        <li>今天11月19日</li>
-        <li>今天11月19日</li>
-        <li>今天11月19日</li> -->
+          <li 
+          v-for="time in dateList" 
+          :key="time.date"
+          @click="handleClick"
+          :date="time.date"
+          >{{time.date}}</li>        
+        <!-- <li>今天11月19日</li> -->
       </ul>
 </template>
 
 <script>
 export default {
-  props: ["dateList"]
+  props: ["dateList"],
+  methods: {
+    // formatDate(){
+
+    // }
+    handleClick(){
+      console.log(1)
+    }
+  }
 }
 </script>
 

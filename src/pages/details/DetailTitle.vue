@@ -1,10 +1,15 @@
 <template>
-   <header><router-link tag="i" to="/" class="yo-ico" >&#xf07d;</router-link>{{movieDeatail.nm}}</header>
+   <header><i @click="handleClick" class="yo-ico" >&#xf07d;</i>{{movieDeatail.nm}}</header>
 </template>
 
 <script>
 export default {
-  props: ["movieDeatail"]
+  props: ["movieDeatail"],
+  methods: {
+    handleClick(){
+      this.$router.back()   
+    }
+  }
 }
 </script>
 
