@@ -8,6 +8,7 @@ import Movies from 'pages/index/movies/Movies'
 import Comingsoon from 'pages/index/movies/comingsoon/Comingsoon'
 import Intheater from 'pages/index/movies/Intheater'
 import Detail from "pages/details/Detail"
+import City from "pages/city/City"
 Vue.use(VueRouter)
 
 const routes = [
@@ -54,6 +55,11 @@ const routes = [
      path:"/detail/:id",
      name:"detail",
      component:Detail
+   },
+   {
+     path:'/city',
+     name:"city",
+     component:City
    }
 ]
 

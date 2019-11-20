@@ -3,10 +3,13 @@
         <header>猫眼电影</header>
         <ToApp v-if="!$store.state.isSticky"></ToApp>
         <nav>
-          <div>
+          <router-link
+            to="/city" 
+            tag="div"
+          >
             <span>北京</span>
             <i class="yo-ico">&#xf033;</i>
-          </div>
+          </router-link>
           <div>
             <router-link tag="li" to="/index/movies/intheater" active-class="active">正在热映</router-link>
             <router-link tag="li" to="/index/movies/comingsoon" active-class="active">即将上映</router-link>
