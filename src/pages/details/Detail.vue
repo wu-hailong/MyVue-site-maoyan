@@ -1,39 +1,12 @@
 <template>
   <div class="detail-wrap">
-    <div class="scroll-content">
-      <header><router-link tag="i" to="/" class="yo-ico" >&#xf07d;</router-link>决战中途岛</header>
+    <DetailTitle :movieDeatail="movieDeatail"></DetailTitle>
+    <div class="scroll-content" v-if="cinemaList.movieId">
       <ToApp></ToApp>
-      <div class="detail-box">
-        <div class="movie-img">
-          <img :src="movieDeatail.img | wh('256.360')" alt="">
-        </div>
-        <div class="movie-detail">
-          <div class="movie-title">{{movieDeatail.nm}}</div>
-          <div class="e-title">{{movieDeatail.enm}}</div>
-          <div class="movie-score">{{movieDeatail.sc}} <span>({{movieDeatail.snum}}人评)</span></div>
-          <div class="movie-type">{{movieDeatail.cat}}</div>
-          <div class="movie-time">{{movieDeatail.src}}/{{movieDeatail.dur}}分钟</div>
-          <div class="public-time">{{movieDeatail.pubDesc}}</div>
-        </div>
-        <div class="cover-box"></div>
-        <!-- <div class="cover-img" :style="{'background-image':'url(movieDeatail.img | wh(`148.208`))'}">
-        </div> -->
-        <i class="yo-ico">&#xf07f;</i>
-      </div>
+      <MovieDeatil :movieDeatail="movieDeatail"></MovieDeatil>
       <div class="sticky-wrap">
-        <ul class="date-bar">
-          <li class="active">今天11月19日</li>
-          <li v-for="time in cinemaList.showDays.dates" :key="time">{{time.date}}</li>
-          <!-- <li>今天11月19日</li>
-          <li>今天11月19日</li>
-          <li>今天11月19日</li>
-          <li>今天11月19日</li> -->
-        </ul>
-        <div class="check-bar">
-            <div>全城 <i class="yo-ico">&#xf033;</i></div>
-            <div>品牌 <i class="yo-ico">&#xf033;</i></div>
-            <div>特色 <i class="yo-ico">&#xf033;</i></div>
-        </div>
+          <DateBar :dateList='dateList'></DateBar>
+          <CheckBar></CheckBar>
       </div>
       <div class="cinema-wrap">
         <ul class="cinema-list">
@@ -61,36 +34,55 @@
             </li>
         </ul>
       </div>
+    </div> 
+    <div v-else>
+     <van-loading
+      color="#1989fa" 
+      type="circular" 
+      /> 
+     <van-skeleton
+      title 
+      :row="20" 
+      />
     </div>
   </div>
 </template>
-moviemachine
 <script>
 import ToApp from "components/ToApp"
+import MovieDeatil from "./movies/MovieDeatil"
+import DetailTitle from "./DetailTitle"
+import DateBar from "./cinemas/DateBar"
+import CheckBar from "./cinemas/CheckBar"
 import { post , get} from "utils/http"
 import { stringify } from 'qs'
+import Vue from 'vue';
+import { Loading ,Skeleton } from 'vant';
+Vue.use(Loading).use(Skeleton)
 export default {
   components: {
-    ToApp
+    ToApp,
+    MovieDeatil,
+    DetailTitle,
+    DateBar,
+    CheckBar
   },
   data () {
     return {
-      cinemaList:[],
-      movieDeatail:[]
+      cinemaList:{},
+      movieDeatail:{},
+      dateList:{}
     }
   },
-  async mounted () {
-
+  async mounted (){
     let { id : movieId } = this.$route.params
-    console.log()
     let detailResult = await get({
         url:'/ajax/detailmovie',
         params:{
           movieId
         }
       }) 
+      // console.log(detailResult)
       this.movieDeatail = detailResult.detailMovie
-      // console.log(this.movieDeatail)
      let cinemaResult = await post({
        url:`/ajax/movie?forceUpdate=${Date.now()}`,
        headers:{"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
@@ -113,8 +105,8 @@ export default {
        })
      })
      console.log(cinemaResult)
-      this.cinemaList = cinemaResult
-    
+      this.dateList = cinemaResult.showDays.dates
+      this.cinemaList = cinemaResult 
 
     //  console.log(detailResult)
   }
@@ -123,101 +115,18 @@ export default {
 
 <style lang="stylus" scoped>
 @import "~assets/stylus/border.styl";
+.van-loading
+  position absolute
+  top 0
+  left 0
+  right 0
+  bottom 0
+  margin auto
+  width .5rem
+  height .5rem
 .detail-wrap
   height 100% 
   overflow-y scroll
-header
-  text-align center
-  line-height .5rem
-  height .5rem
-  background #e54847
-  color #fff
-  font-size .18rem
-  position relative
-  i 
-    position absolute
-    left .1rem 
-.detail-box
-  height 1.88rem
-  padding .19rem .3rem .19rem .15rem
-  display flex
-  position relative
-  .movie-img
-    height 1.5rem
-    width 1.1rem
-    img 
-      width 100%
-      height 100%
-  i 
-    position absolute
-    right .2rem
-    top 50%
-    color #fff
-  .movie-detail
-    flex 1
-    color #fff
-    margin-left .12rem
-    div
-      font-size .12rem
-      line-height .12rem
-    .movie-title
-      font-size .2rem
-      line-height .2rem
-      font-weight bold
-    .e-title
-      margin-top .1rem
-    .movie-score
-      font-size .18rem
-      line-height .18rem
-      color #fc0
-      font-weight bold
-      margin-top .11rem
-      span
-        font-size .12rem
-        color #fff
-    .movie-type
-      margin-top .1rem
-    .movie-time
-      margin-top .1rem
-    .public-time
-      margin-top .1rem
-  .cover-box,.cover-img
-    position absolute
-    z-index -1
-    top 0
-    left 0
-    width 100%
-    height 100%
-  .cover-box
-    background-color #333
-  .cover-img
-    overflow hidden
-    background-size cover
-    background-repeat no-repeat
-    opacity .22
-.date-bar
-  height .45rem
-  display flex
-  background #fff
-  overflow-x scroll
-  li
-    min-width 1.15rem
-    text-align center
-    line-height .45rem
-    font-size .14rem
-    color #666
-    margin 0 .04rem
-    &.active
-      border-bottom: 2px solid #f03d37;
-      color: #f03d37;
-.check-bar
-  height .4rem
-  display flex
-  background #fff
-  >div
-    line-height .4rem
-    flex 1
-    text-align center
 .cinema-wrap
   height 100%
   background #fff
