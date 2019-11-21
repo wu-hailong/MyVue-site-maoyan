@@ -3,7 +3,12 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+import cities from './cities'
+
 export default new Vuex.Store({
+  modules: {
+    cities
+  },
   state: {
     isSticky:false
   },
@@ -13,7 +18,5 @@ export default new Vuex.Store({
     }
   },
   actions: {
-  },
-  modules: {
   }
 })

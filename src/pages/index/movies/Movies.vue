@@ -7,7 +7,7 @@
             to="/city" 
             tag="div"
           >
-            <span>北京</span>
+            <span>{{$store.state.cities.nm}}</span>
             <i class="yo-ico">&#xf033;</i>
           </router-link>
           <div>
@@ -56,6 +56,11 @@ export default {
        align-items center
        display flex
        color #666
+       min-width 0
+       span   
+        white-space nowrap
+        overflow hidden
+        text-overflow ellipsis
     >div:nth-child(2)
       flex: 215;
       display flex

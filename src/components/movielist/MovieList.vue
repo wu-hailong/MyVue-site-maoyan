@@ -37,6 +37,7 @@ import BScroll from 'better-scroll'
 import _ from "lodash";
 import Vue from 'vue';
 import { Loading } from 'vant';
+import store from "store"
 Vue.use(Loading)
 export default {
   props: ["type"],
@@ -76,6 +77,7 @@ export default {
   },
   async mounted () {
       var url , offset
+      let {cityId} = store.get("currentCity")
       // console.log(this.type)
       //根据type 请求不同的的数据
       if(this.type === 'intheater'){
@@ -90,7 +92,7 @@ export default {
         url,
         params:{
           token:'',
-          ci : 1,
+          ci : cityId,
           limit : 10
         }
       })
