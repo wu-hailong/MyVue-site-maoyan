@@ -1,6 +1,6 @@
 <template>
     <div class="movies-wrapper">
-        <header>猫眼电影</header>
+        <Header>猫眼电影</Header>
         <ToApp v-if="!$store.state.isSticky"></ToApp>
         <nav>
           <router-link
@@ -25,9 +25,11 @@
 <script>
 
 import ToApp from "components/ToApp"
+import Header from "components/Header"
 export default {
   components: {
-    ToApp
+    ToApp,
+    Header
   }
 }
 </script>
@@ -38,13 +40,6 @@ export default {
   height 100%
   display flex
   flex-direction column
-  header
-    text-align center
-    line-height .5rem
-    height .5rem
-    background #e54847
-    color #fff
-    font-size .18rem
   nav 
     height .44rem
     display flex

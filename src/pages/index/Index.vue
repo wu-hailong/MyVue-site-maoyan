@@ -42,6 +42,7 @@ export default {
     height .48rem
     background #fff
     $border()
+    z-index 999
     ul
       display flex
       height 100%

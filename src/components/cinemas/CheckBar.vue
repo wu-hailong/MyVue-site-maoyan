@@ -22,8 +22,10 @@ export default {
   >div
     line-height .4rem
     flex 1
-    text-align center
     position relative
+    display flex
+    align-items center
+    justify-content center
   >div::after
     content ""
     display block

@@ -2,13 +2,14 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Index from 'pages/index/Index'
-import Cinema from 'pages/index/Cinema'
+import Cinema from 'pages/index/cinemas/Cinema'
 import Mine from 'pages/index/Mine'
 import Movies from 'pages/index/movies/Movies'
 import Comingsoon from 'pages/index/movies/comingsoon/Comingsoon'
 import Intheater from 'pages/index/movies/Intheater'
 import Detail from "pages/details/Detail"
 import City from "pages/city/City"
+import Search from "pages/search/Search"
 Vue.use(VueRouter)
 
 const routes = [
@@ -60,6 +61,11 @@ const routes = [
      path:'/city',
      name:"city",
      component:City
+   },
+   {
+     path:'/search',
+     name:'search',
+     component:Search
    }
 ]
 

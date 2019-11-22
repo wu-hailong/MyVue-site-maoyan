@@ -77,7 +77,8 @@ export default {
   },
   async mounted () {
       var url , offset
-      let {cityId} = store.get("currentCity")
+      let {id:cityId} = store.get("currentCity") || {id:1}
+      // console.log(cityId)
       // console.log(this.type)
       //根据type 请求不同的的数据
       if(this.type === 'intheater'){

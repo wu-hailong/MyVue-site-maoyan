@@ -50,6 +50,7 @@ li
         margin-left .25rem
         i 
           font-size .12rem
+          color #999
     .cinema-address
       margin-top .05rem
       font-size .13rem

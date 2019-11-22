@@ -1,72 +1,78 @@
 <template>
   <section class="city-wrapper">
-    <div class="scroll-wrapper">
-        <section class="city">
-          <div class="item-title" ref="location">定位城市</div>
-          <div class="city-items">
-            <div class="city-item location-city">定位失败，请点击重试</div>
-          </div>
-        </section>
-        <section class="city">
-          <div class="item-title"  ref="history">最近访问城市</div>
-          <div class="city-items">
-            <div class="city-item"
-            v-for="city in historyCities"
-            :key="city.id"
-             @click="pickCity(city.id,city.nm)"         
-             >
-             {{city.nm}}
-             </div>
-          </div>
-        </section>
-        <section class="city">
-          <div class="item-title"  ref="hot">热门城市</div>
-          <div class="city-items">
-            <div class="city-item"
-            v-for="city in hotCities"
-            :key="city.id" 
-            @click="pickCity(city.id,city.nm)"
-            >
-            {{city.nm}}
+      <van-skeleton
+      title 
+      :row="25"
+      :loading="hotCities.length === 0"
+      >
+        <div class="scroll-wrapper">
+          <section class="city">
+            <div class="item-title" ref="location">定位城市</div>
+            <div class="city-items">
+              <div class="city-item location-city">定位失败，请点击重试</div>
             </div>
-          </div>
-        </section>
-        <section class="city">
-          <div
-          v-for="(cities,key) in cityList"
-          :key="key"
-          >
-            <div :ref="key" class="item-title letter-title">{{key}}</div>
-            <div class="city-list">
-              <div class="list-item"
-              v-for="city in cities"
+          </section>
+          <section class="city">
+            <div class="item-title"  ref="history">最近访问城市</div>
+            <div class="city-items">
+              <div class="city-item"
+              v-for="city in historyCities"
+              :key="city.id"
+              @click="pickCity(city.id,city.nm)"         
+              >
+              {{city.nm}}
+              </div>
+            </div>
+          </section>
+          <section class="city">
+            <div class="item-title"  ref="hot">热门城市</div>
+            <div class="city-items">
+              <div class="city-item"
+              v-for="city in hotCities"
               :key="city.id" 
               @click="pickCity(city.id,city.nm)"
               >
               {{city.nm}}
               </div>
             </div>
+          </section>
+          <section class="city">
+            <div
+            v-for="(cities,key) in cityList"
+            :key="key"
+            >
+              <div :ref="key" class="item-title letter-title">{{key}}</div>
+              <div class="city-list">
+                <div class="list-item"
+                v-for="city in cities"
+                :key="city.id" 
+                @click="pickCity(city.id,city.nm)"
+                >
+                {{city.nm}}
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <section class="city-nav">
+          <div class="nav-item"
+          v-for="value in navTopThree"
+          :key="value.id"
+          @click="ClickTopThree(value.id)"
+          >
+          {{value.nm}}
+          </div>
+          <div class="nav-letter"
+          v-for="letter in indexList"
+          :key="letter"
+          @touchmove="handleTouchMove"
+          @click="ClickLetter(letter)" 
+          :ref="letter"
+          >
+          {{letter}}
           </div>
         </section>
-      </div>
-      <section class="city-nav">
-        <div class="nav-item"
-        v-for="value in navTopThree"
-        :key="value.id"
-        @click="ClickTopThree(value.id)"
-        >
-        {{value.nm}}
-        </div>
-        <div class="nav-letter"
-        v-for="letter in indexList"
-        :key="letter"
-        @touchmove="handleTouchMove"
-        @click="ClickLetter(letter)" 
-        :ref="letter"
-        >
-        {{letter}}
-        </div>
-      </section>
+    </van-skeleton>
   </section>
 </template>
 
@@ -76,6 +82,9 @@ import { get } from "utils/http"
 import BScroll from "better-scroll"
 import _ from "lodash"
 import store from "store"
+import Vue from 'vue';
+import { Skeleton } from 'vant';
+Vue.use(Skeleton)
 export default {
   data () {
     return {
@@ -136,14 +145,16 @@ export default {
     pickCity(id,nm){
       // console.log(id,nm)
       let cities = store.get('historyCities') || []
-      cities.push({
+      cities.unshift({
         id,
         nm
       })
+      if(cities.length > 3){
+        cities.splice(2,1)
+      }
       store.set("historyCities",_.uniqBy(cities,(value)=>{
-        return value.id !== id
+        return value.id
       }))
-
       store.set("currentCity",{
         id,
         nm

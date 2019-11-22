@@ -1,7 +1,9 @@
 <template>
   <div class="detail-wrap">
     <div>  
-      <DetailTitle :movieDeatail="movieDeatail"></DetailTitle>
+      <Header>
+        <i @click="handleClick" class="yo-ico" >&#xf07d;</i>{{movieDeatail.nm}}
+      </Header>
       <div class="scroll-content" v-if="cinemamovieId">
         <ToApp></ToApp>
         <MovieDeatil :movieDeatail="movieDeatail"></MovieDeatil>
@@ -9,11 +11,11 @@
         <CheckBar></CheckBar>
         <div class="cinema-wrap">
           <ul class="cinema-list">
-              <Cinema
+              <CinemaItem
                 v-for="cinema in cinemaList"
                 :key="cinema.id"
                 :cinema="cinema"
-              ></Cinema>
+              ></CinemaItem>
           </ul>
         </div>
       </div> 
@@ -31,26 +33,27 @@
   </div>
 </template>
 <script>
+import Header from "components/Header";
 import ToApp from "components/ToApp"
 import MovieDeatil from "./movies/MovieDeatil"
-import DetailTitle from "./DetailTitle"
 import DateBar from "./cinemas/DateBar"
-import CheckBar from "./cinemas/CheckBar"
-import Cinema from "components/Cinema"
+import CheckBar from "components/cinemas/CheckBar"
+import CinemaItem from "components/cinemas/CinemaItem"
 import { post , get} from "utils/http"
 import { stringify } from 'qs'
 import Vue from 'vue';
 import { Loading ,Skeleton } from 'vant';
-import BScroll from 'better-scroll'
 Vue.use(Loading).use(Skeleton)
+import BScroll from 'better-scroll'
+import store from "store"
 export default {
   components: {
+    Header,
     ToApp,
     MovieDeatil,
-    DetailTitle,
     DateBar,
     CheckBar,
-    Cinema
+    CinemaItem
   },
   data () {
     return {
@@ -61,7 +64,7 @@ export default {
     }
   },
   methods: {
-    async getCinemaList({movieId,offset,day}){
+    async getCinemaList({movieId,offset,day,cityId}){
       return await post({
             url:`/ajax/movie?forceUpdate=${Date.now()}`,
             headers:{"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
@@ -80,7 +83,7 @@ export default {
               item:"",
               updateShowDay: true,
               reqId: 1574171645589,
-              cityId: 1,
+              cityId
             })
           })
     },
@@ -89,10 +92,14 @@ export default {
         let month = (new Date().getMonth() + 1)
         let day = new Date().getDate()
         return `${year}-${month}-${day}`
+    },
+    handleClick(){
+      this.$router.back()   
     }
   },
   async mounted (){
     let { id : movieId } = this.$route.params
+    let { id : cityId } = store.get("currentCity")
     let offset = 0
     let day
     let detailResult = await get({
@@ -109,7 +116,7 @@ export default {
     }else{
       day = this.movieDeatail.rt
     }
-    let cinemaResult = await this.getCinemaList({movieId,offset,day})
+    let cinemaResult = await this.getCinemaList({movieId,offset,day,cityId})
     // console.log(cinemaResult)
     this.dateList = cinemaResult.showDays.dates
     this.cinemaList = cinemaResult.cinemas 
