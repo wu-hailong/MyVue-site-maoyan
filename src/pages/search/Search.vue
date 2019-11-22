@@ -4,34 +4,51 @@
         <i @click="handleClick" class="yo-ico" >&#xf07d;</i>
         猫眼电影
     </Header>
-    <div class="search-header">
-      <div class="input-wrap">
-          <i class="yo-ico">&#xf067;</i>
-          <input v-model="inputValue" type="text" placeholder="搜影院" @input="handleInput" @blur="saveKeyWords">
-          <i class="yo-ico" v-if="inputValue !== ''" @click="clearInput">&#xf063;</i>
+    <div v-if="stype===2||-1" class="content-wrapper">
+      <div class="search-header">
+        <div class="input-wrap">
+            <i class="yo-ico">&#xf067;</i>
+
+            <input v-if="stype===2" v-model="inputValue" type="text" placeholder="搜影院" @input="handleInput" @blur="saveKeyWords">
+            <input v-else v-model="inputValue" type="text" placeholder="搜电影,搜影院" @input="handleInput" @blur="saveKeyWords">
+
+            <i class="yo-ico" v-if="inputValue !== ''" @click="clearInput">&#xf063;</i>
+        </div>
+        <div class="cancel" @click="handleClick()">取消</div>
       </div>
-      <div class="cancel" @click="handleClick()">取消</div>
-    </div>
-    <div class="search-history" v-if="!searchList.cinemas">
-      <li v-for="(keyword,index) in historyKeyWords" :key="index">
-        <img :src="SHImg" alt="">
-        <span>{{keyword}}</span>
-        <i class="yo-ico">&#xf077;</i>
-      </li>
-    </div>
-    <div class="search-result" v-else>
-        <h2>影院</h2>
-        <CinemaItem
-        v-for="cinema in searchList.cinemas.list"
-        :key="cinema.id"
-        :cinema="cinema"
-        ></CinemaItem>
+      <div class="search-history" v-if="!searchList.cinemas">
+        <li v-for="(keyword,index) in historyKeyWords" :key="index">
+          <img :src="SHImg" alt="">
+          <span>{{keyword}}</span>
+          <i class="yo-ico">&#xf077;</i>
+        </li>
+      </div>
+      <div class="result-wrapper" v-else>
+        <div class="search-result">
+          <div v-if="stype!==2" class="movies-result">
+            <h2>电影/电视剧/综艺</h2>
+            <MovieItem
+              v-for="(movie,index) in searchList.movies.list"
+              :key="movie.id" 
+              :movie = "movie" 
+              :index = "index"
+            ></MovieItem>
+          </div>
+          <h2>影院</h2>
+          <CinemaItem
+          v-for="cinema in searchList.cinemas.list" 
+          :key="cinema.id"
+          :cinema="cinema"
+          ></CinemaItem>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Header from "components/Header";
+import MovieItem from "components/movielist/MovieItem"
 import SHImg from "assets/searchHistory.png"
 import CinemaItem from "components/cinemas/CinemaItem";
 import { get } from "utils/http"
@@ -43,15 +60,27 @@ export default {
       SHImg,
       searchList:{},
       inputValue:"",
-      historyKeyWords:store.get("keyWords")||[]
+      historyKeyWords:store.get("keyWords")||[],
+      stype:0 
     }
   },
   components: {
     Header,
-    CinemaItem
+    CinemaItem,
+    MovieItem
+  },
+  //路由守卫
+  beforeRouteEnter(to, from, next) {
+    //  console.log(from)
+     store.set("routerFrom",from.name)
+    next()
   },
   mounted () {
-   
+    if(store.get("routerFrom")=== null){
+      this.stype = 2   
+    }else{
+      this.stype =  store.get("routerFrom")==="cinema"? 2 : -1    
+    }
   },
   methods: {
     handleClick(){
@@ -70,14 +99,13 @@ export default {
       }
     },
     handleInput:_.debounce(async function(){
-      let { id:cityId} = store.get("currentCity") || {id:1}
-
+      let { id:cityId } = store.get("currentCity") || {id:1}
       let result = await get({
             url:"/ajax/search",
             params:{
               kw:this.inputValue,
               cityId,
-              stype:2
+              stype:this.stype
             }
           })
         this.searchList = result
@@ -91,6 +119,10 @@ export default {
 .search-wrapper
   background-color #f5f5f5
   height 100%
+.content-wrapper
+  height 100%
+  display flex
+  flex-direction column
 .search-header
   height .47rem
   padding .08rem .1rem
@@ -140,6 +172,10 @@ export default {
       text-overflow ellipsis
     i 
       padding .1rem .15rem
+.result-wrapper
+  height 100%
+  overflow-y scroll
+  flex 1
 .search-result
   background #fff
   h2
@@ -148,4 +184,6 @@ export default {
     font-size .15rem
     color #999
     font-weight normal
+.movies-result
+  padding 0 .15rem
 </style>

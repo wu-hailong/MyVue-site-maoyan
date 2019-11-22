@@ -15,7 +15,11 @@
             <router-link tag="li" to="/index/movies/comingsoon" active-class="active">即将上映</router-link>
           </div>
           <div>
+            <router-link
+              to="/search"
+            >
             <i class="yo-ico">&#xf067;</i>
+            </router-link>
           </div>
         </nav>
         <router-view></router-view>
