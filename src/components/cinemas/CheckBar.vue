@@ -1,19 +1,16 @@
 <template>
   <div class="check-bar">
-    <!-- <div>
+
       <div>全城 <i class="yo-ico">&#xf033;</i></div>
       <div>品牌 <i class="yo-ico">&#xf033;</i></div>
       <div>特色 <i class="yo-ico">&#xf033;</i></div>
-    </div> -->
-    <div>
+    <!--
     <van-dropdown-menu
-     :z-index="zIndex"
     >
       <van-dropdown-item v-model="value1" :options="option1" />
       <van-dropdown-item v-model="value2" :options="option2" />
       <van-dropdown-item v-model="value3" :options="option3" />
-    </van-dropdown-menu>
-    </div>
+    </van-dropdown-menu> -->
 
   </div>
 </template>
@@ -57,28 +54,28 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-// @import "~assets/stylus/border.styl";
-// .check-bar
-//   height .4rem
-//   display flex
-//   background #fff
-//   $border(0 0 1px 0)
-//   >div
-//     line-height .4rem
-//     flex 1
-//     position relative
-//     display flex
-//     align-items center
-//     justify-content center
-//   >div::after
-//     content ""
-//     display block
-//     position absolute
-//     height .2rem
-//     top .1rem
-//     left 0
-//     border-left 1px solid #e8e8e8
-//   >div:nth-child(1)::after
-//     display none
+@import "~assets/stylus/border.styl";
+.check-bar
+  height .4rem
+  display flex
+  background #fff
+  $border(0 0 1px 0)
+  >div
+    line-height .4rem
+    flex 1
+    position relative
+    display flex
+    align-items center
+    justify-content center
+  >div::after
+    content ""
+    display block
+    position absolute
+    height .2rem
+    top .1rem
+    left 0
+    border-left 1px solid #e8e8e8
+  >div:nth-child(1)::after
+    display none
 
 </style>
