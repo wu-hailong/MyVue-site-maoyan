@@ -16,7 +16,7 @@
           </div>
           <div>
             <router-link
-              to="/search"
+              :to="`/search/${searchType}`"
             >
             <i class="yo-ico">&#xf067;</i>
             </router-link>
@@ -31,6 +31,11 @@
 import ToApp from "components/ToApp"
 import Header from "components/Header"
 export default {
+  data () {
+    return {
+      searchType:-1  
+    }
+  },
   components: {
     ToApp,
     Header

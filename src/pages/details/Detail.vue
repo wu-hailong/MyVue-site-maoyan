@@ -99,7 +99,7 @@ export default {
   },
   async mounted (){
     let { id : movieId } = this.$route.params
-    let { id : cityId } = store.get("currentCity")
+    let { id : cityId } = store.get("currentCity") || {id:1}
     let offset = 0
     let day
     let detailResult = await get({
@@ -118,7 +118,9 @@ export default {
     }
     let cinemaResult = await this.getCinemaList({movieId,offset,day,cityId})
     // console.log(cinemaResult)
-    this.dateList = cinemaResult.showDays.dates
+    if(cinemaResult.showDays){
+      this.dateList = cinemaResult.showDays.dates
+    }
     this.cinemaList = cinemaResult.cinemas 
     this.cinemamovieId = cinemaResult.movieId
       //  console.log(detailResult)

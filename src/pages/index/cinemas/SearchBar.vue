@@ -11,7 +11,7 @@
       </router-link>
       <router-link 
       class="search-box" 
-      to="/search" 
+      :to="`/search/${searchType}`" 
       tag="div"
       >
         <i class="yo-ico">&#xf067;</i>
@@ -22,7 +22,11 @@
 
 <script>
 export default {
-  
+  data () {
+    return {
+      searchType:2
+    }
+  }
 }
 </script>
 

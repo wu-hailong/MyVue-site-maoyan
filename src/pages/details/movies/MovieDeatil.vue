@@ -1,29 +1,34 @@
 <template>
-  <div class="detail-box">
-    <div class="movie-img">
-      <img :src="movieDeatail.img | wh('256.360')" alt />
-    </div>
-    <div class="movie-detail">
-      <div class="movie-title">{{movieDeatail.nm}}</div>
-      <div class="e-title">{{movieDeatail.enm}}</div>
-      <div class="movie-score">
-        {{movieDeatail.sc}}
-        <span>({{movieDeatail.snum}}人评)</span>
+  <div class="detail-box" @click="handleClick">
+      <div class="movie-img">
+        <img :src="movieDeatail.img | wh('256.360')" alt />
       </div>
-      <div class="movie-type">{{movieDeatail.cat}}</div>
-      <div class="movie-time">{{movieDeatail.src}}/{{movieDeatail.dur}}分钟</div>
-      <div class="public-time">{{movieDeatail.pubDesc}}</div>
-    </div>
-    <div class="cover-box"></div>
-    <!-- <div class="cover-img" :style="{'background-image':'url(movieDeatail.img | wh(`148.208`))'}">
-    </div>-->
-    <i class="yo-ico">&#xf07f;</i>
+      <div class="movie-detail">
+        <div class="movie-title">{{movieDeatail.nm}}</div>
+        <div class="e-title">{{movieDeatail.enm}}</div>
+        <div class="movie-score">
+          {{movieDeatail.sc}}
+          <span>({{movieDeatail.snum}}人评)</span>
+        </div>
+        <div class="movie-type">{{movieDeatail.cat}}</div>
+        <div class="movie-time">{{movieDeatail.src}}/{{movieDeatail.dur}}分钟</div>
+        <div class="public-time">{{movieDeatail.pubDesc}}</div>
+      </div>
+      <div class="cover-box"></div>
+      <!-- <div class="cover-img" :style="{'background-image':'url(movieDeatail.img | wh(`148.208`))'}">
+      </div>-->
+      <i class="yo-ico">&#xf07f;</i>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["movieDeatail"]
+  props: ["movieDeatail"],
+  methods: {
+    handleClick(){
+     this.$router.push(`/movieMessage/${this.movieDeatail.id}`)
+    }
+  }
 };
 </script>
 

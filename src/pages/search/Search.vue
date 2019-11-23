@@ -33,13 +33,21 @@
               :movie = "movie" 
               :index = "index"
             ></MovieItem>
+            <div class="result-total" v-if="searchList.movies.total > 3">
+              查看全部{{searchList.movies.total}}部影视剧
+            </div>
           </div>
-          <h2>影院</h2>
-          <CinemaItem
-          v-for="cinema in searchList.cinemas.list" 
-          :key="cinema.id"
-          :cinema="cinema"
-          ></CinemaItem>
+          <div class="cinemas-result">
+            <h2>影院</h2>
+            <CinemaItem
+            v-for="cinema in cinemaList" 
+            :key="cinema.id"
+            :cinema="cinema"
+            ></CinemaItem>
+            <div class="result-total" v-if="searchList.cinemas.total > 3">
+              查看全部{{searchList.cinemas.total}}部影视剧
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -61,7 +69,8 @@ export default {
       searchList:{},
       inputValue:"",
       historyKeyWords:store.get("keyWords")||[],
-      stype:0 
+      stype:0 ,
+      cinemaList:[]
     }
   },
   components: {
@@ -69,18 +78,9 @@ export default {
     CinemaItem,
     MovieItem
   },
-  //路由守卫
-  beforeRouteEnter(to, from, next) {
-    //  console.log(from)
-     store.set("routerFrom",from.name)
-    next()
-  },
   mounted () {
-    if(store.get("routerFrom")=== null){
-      this.stype = 2   
-    }else{
-      this.stype =  store.get("routerFrom")==="cinema"? 2 : -1    
-    }
+    let { stype } = this.$route.params
+    this.stype = ~~stype
   },
   methods: {
     handleClick(){
@@ -109,6 +109,9 @@ export default {
             }
           })
         this.searchList = result
+        if(result.cinemas){
+          this.cinemaList = result.cinemas.list.splice(0,3)
+        }
     },500)
   }
 }
@@ -119,8 +122,11 @@ export default {
 .search-wrapper
   background-color #f5f5f5
   height 100%
+  display flex
+  flex-direction column
 .content-wrapper
   height 100%
+  flex 1
   display flex
   flex-direction column
 .search-header
@@ -173,11 +179,9 @@ export default {
     i 
       padding .1rem .15rem
 .result-wrapper
-  height 100%
   overflow-y scroll
   flex 1
 .search-result
-  background #fff
   h2
     padding .09rem .15rem
     $border(0 0 1px 0)
@@ -186,4 +190,14 @@ export default {
     font-weight normal
 .movies-result
   padding 0 .15rem
+  background #fff
+  margin-bottom .1rem
+.cinemas-result
+  background #fff
+.result-total
+  font-size: 15px;
+  color: #ef4238;
+  line-height: 44px;
+  height: 44px;
+  text-align: center;
 </style>

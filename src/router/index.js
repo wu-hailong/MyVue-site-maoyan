@@ -8,6 +8,7 @@ import Movies from 'pages/index/movies/Movies'
 import Comingsoon from 'pages/index/movies/comingsoon/Comingsoon'
 import Intheater from 'pages/index/movies/Intheater'
 import Detail from "pages/details/Detail"
+import MovieMessage from "pages/details/movies/MovieMessage"
 import City from "pages/city/City"
 import Search from "pages/search/Search"
 Vue.use(VueRouter)
@@ -55,15 +56,20 @@ const routes = [
    {
      path:"/detail/:id",
      name:"detail",
-     component:Detail
-   },
+     component:Detail,
+    },
+    {
+      path:'/movieMessage/:id',
+      name:'movieMessage',
+      component:MovieMessage
+    },
    {
      path:'/city',
      name:"city",
      component:City
    },
    {
-     path:'/search',
+     path:'/search/:stype',
      name:'search',
      component:Search
    }
