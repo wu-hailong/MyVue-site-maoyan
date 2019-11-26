@@ -31,12 +31,16 @@
     margin 0 .1rem 0 .15rem
   .text-wrap
     flex 1
+    min-width 0
     .title
       font-size .17rem 
       color #222
     .content
       font-size .12rem
       color #999
+      white-space nowrap
+      text-overflow ellipsis
+      overflow hidden
   .btn
     margin-right .15rem
     width .68rem

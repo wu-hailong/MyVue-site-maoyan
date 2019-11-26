@@ -202,7 +202,13 @@ a {
 @font-face {
   font-family: yofont;
   src: url(//ss.qunarzz.com/yo/font/1.0.3/yofont.woff) format("woff"), url(//ss.qunarzz.com/yo/font/1.0.3/yofont.ttf) format("truetype"); }
-
+/* @font-face {
+    font-family: stonefont;
+    src: url(./priceFont.woff) format("woff");
+  }
+.stonefont {
+  font-family: 'stonefont';
+} */
 .yo-ico {
   font-family: yofont !important;
   font-style: normal;

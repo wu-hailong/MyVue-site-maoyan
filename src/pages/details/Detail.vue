@@ -2,7 +2,10 @@
   <div class="detail-wrap">
     <div>  
       <Header>
-        <i @click="handleClick" class="yo-ico" >&#xf07d;</i>{{movieDeatail.nm}}
+        <i @click="handleClick" class="yo-ico" >&#xf07d;</i>
+        <div>
+          {{movieDeatail.nm}}
+        </div>
       </Header>
       <div class="scroll-content" v-if="cinemamovieId">
         <ToApp></ToApp>

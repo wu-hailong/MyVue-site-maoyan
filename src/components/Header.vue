@@ -19,8 +19,16 @@ header
   color #fff
   font-size .18rem
   position relative
+  display flex
+  padding  0 .5rem
   i 
     position absolute
     left .06rem
     font-size .28rem
+  div
+    flex 1
+    white-space nowrap
+    overflow hidden
+    text-overflow ellipsis
+    min-width 0
 </style>
