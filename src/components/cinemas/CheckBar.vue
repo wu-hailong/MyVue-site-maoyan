@@ -1,54 +1,40 @@
 <template>
-  <div class="check-bar">
+<div v-if="checkList.brand">
+    <div class="check-bar" >
+        <div><span>全城</span><i class="yo-ico">&#xf033;</i></div>
+        <div @click="showCheck"><span>{{checkList.brand.name}}</span><i class="yo-ico">&#xf033;</i></div>
+        <div><span>特色</span><i class="yo-ico">&#xf033;</i></div>
+    </div>
+    <div class="check-content" v-show="isShow">
+        <div class="check-brand check-box" >
+          <li v-for="value in checkList.brand.subItems" :key="value.id"><span>{{value.name}}</span><i>{{value.count}}</i></li>
+        </div>
+    </div>
+</div>
 
-      <div>全城 <i class="yo-ico">&#xf033;</i></div>
-      <div>品牌 <i class="yo-ico">&#xf033;</i></div>
-      <div>特色 <i class="yo-ico">&#xf033;</i></div>
-    <!--
-    <van-dropdown-menu
-    >
-      <van-dropdown-item v-model="value1" :options="option1" />
-      <van-dropdown-item v-model="value2" :options="option2" />
-      <van-dropdown-item v-model="value3" :options="option3" />
-    </van-dropdown-menu> -->
-
-  </div>
 </template>
 
 <script>
-import Vue from 'vue';
-import { DropdownMenu, DropdownItem } from 'vant';
-Vue.use(DropdownMenu).use(DropdownItem);
+
 import { get } from "utils/http"
 export default {
     data() {
       return {
-        zIndex:999,
-        value1: 0,
-        value2: 'a',
-        value3: 'A',
-        option1: [
-          { text: '全城', value: 0 },
-          { text: '新款商品', value: 1 },
-          { text: '活动商品', value: 2 }
-        ],
-        option2: [
-          { text: '品牌', value: 'a' },
-          { text: '好评排序', value: 'b' },
-          { text: '销量排序', value: 'c' },
-        ],
-        option3: [
-          { text: '特色', value: 'A' },
-          { text: '好评排序', value: 'B' },
-          { text: '销量排序', value: 'C' },
-        ]
+       checkList:{},
+       isShow:false
+      }
+    },
+    methods: {
+      showCheck(){
+        this.isShow = !this.isShow
       }
     },
     async mounted () {
       let result  = await get({
         url:'/ajax/filterCinemas?ci=1'
       })
-      console.log(result)
+      // console.log(result)
+      this.checkList = result
     }
 }
 </script>
@@ -77,5 +63,23 @@ export default {
     border-left 1px solid #e8e8e8
   >div:nth-child(1)::after
     display none
-
+.check-content
+  position absolute
+  height 100%
+  width 100%
+  z-index 1000
+  background rgba(0,0,0,.6)
+  .check-box
+    overflow-y scroll
+    background #fff
+    height 3.45rem
+    li 
+      height .45rem
+      $border(0 0 1px 0)
+      margin-right .27rem
+      padding 0 .15rem 0 .26rem
+      display flex
+      justify-content space-between
+      align-items center
+      color #333
 </style>

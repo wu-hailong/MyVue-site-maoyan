@@ -11,6 +11,7 @@ import Detail from "pages/details/Detail"
 import MovieMessage from "pages/details/movies/MovieMessage"
 import City from "pages/city/City"
 import Search from "pages/search/Search"
+import CinemaDetail from "pages/details/cinemas/CinemaDetail"
 Vue.use(VueRouter)
 
 const routes = [
@@ -52,6 +53,11 @@ const routes = [
          component : Mine
        }
      ]
+   },
+   {
+     path:"/cinemaDetail/:id",
+     name:"cinamaDetail",
+     component:CinemaDetail
    },
    {
      path:"/detail/:id",

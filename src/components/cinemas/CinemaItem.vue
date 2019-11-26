@@ -1,5 +1,5 @@
 <template>
-      <li>
+      <li @click="gotoDetail">
         <div class="cinema">
           <div class="cinema-name">
             <span>{{cinema.nm}}</span>
@@ -25,7 +25,12 @@
 
 <script>
 export default {
-  props: ["cinema"]
+  props: ["cinema"],
+  methods: {
+    gotoDetail(){
+      this.$router.push(`/cinemaDetail/${this.cinema.id}`)
+    }
+  }
 }
 </script>
 
