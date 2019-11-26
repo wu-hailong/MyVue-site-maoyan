@@ -7,15 +7,7 @@
       </div>
     </Header>
     <ToApp></ToApp>
-    <div class="cinema-location">
-      <div class="location-wrap">
-        <div class="cinema-nm">{{cinemaData.nm}}</div>
-        <div class="location">{{cinemaData.addr}}</div>
-      </div>
-      <div class="location-icon">
-        <img :src="LocationIcon" alt="">
-      </div>
-    </div>
+    <CinemaLocation :cinemaData="cinemaData"></CinemaLocation>
     <div class="movies-wrap">
       <div class="container">
         <swiper class="wrapper"
@@ -124,8 +116,8 @@
 import Header from "components/Header"
 import ToApp from "components/ToApp"
 import { get } from "utils/http"
-import LocationIcon from "assets/location.png"
 import NoSeatImg from "assets/noSeat.png"
+import CinemaLocation from "./CinemaLocation"
 // require styles
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
@@ -135,13 +127,13 @@ export default {
     Header,
     ToApp,
     swiper,
-    swiperSlide
+    swiperSlide,
+    CinemaLocation
   },
   data () {
     return {
       cinemaData:{},
       movieList:{},
-      LocationIcon,
       NoSeatImg,
       currentIndex:0,
       checkedIndex:0,
@@ -209,38 +201,7 @@ export default {
 .content-wrapper
   overflow-x scroll
   height 100%
-.cinema-location
-  padding .15rem 1rem .15rem .15rem
-  position relative
-  display flex
-  align-items center
-  background #fff
-  .location-icon
-    position absolute !important
-    height .31rem
-    width .71rem
-    display flex
-    justify-content center
-    align-items center
-    right 0
-    $border(0 0 0 1px)
-    img 
-      width .19rem
-      height .22rem
-  .location-wrap
-    white-space nowrap
-    overflow hidden
-    .cinema-nm
-      font-size .17rem
-      line-height .24rem
-      font-weight 700
-      text-overflow ellipsis
-      overflow hidden   
-      color #333 
-    .location
-      text-overflow ellipsis
-      overflow hidden
-      color #999
+
 .movies-wrap
   $border(0 0 1px 0)
   .container

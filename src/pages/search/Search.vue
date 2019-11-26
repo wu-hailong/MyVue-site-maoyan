@@ -20,7 +20,7 @@
         <li v-for="(keyword,index) in historyKeyWords" :key="index">
           <img :src="SHImg" alt="">
           <span>{{keyword}}</span>
-          <i class="yo-ico">&#xf077;</i>
+          <i class="yo-ico" @click="deleteHistory(index)">&#xf077;</i>
         </li>
       </div>
       <div class="result-wrapper" v-else>
@@ -88,6 +88,9 @@ export default {
     },
     clearInput(){
       this.inputValue = ''
+    },
+    deleteHistory(index){
+        this.historyKeyWords.splice(index,1)
     },
     saveKeyWords(){
       if(this.inputValue !== ''){
