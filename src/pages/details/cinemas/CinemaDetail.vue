@@ -116,6 +116,7 @@
 import Header from "components/Header"
 import ToApp from "components/ToApp"
 import { get } from "utils/http"
+
 import NoSeatImg from "assets/noSeat.png"
 import CinemaLocation from "./CinemaLocation"
 // require styles
@@ -201,7 +202,6 @@ export default {
 .content-wrapper
   overflow-x scroll
   height 100%
-
 .movies-wrap
   $border(0 0 1px 0)
   .container
