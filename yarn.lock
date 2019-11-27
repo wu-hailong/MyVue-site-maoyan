@@ -7538,6 +7538,11 @@ vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
+vee-validate@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.npm.taobao.org/vee-validate/download/vee-validate-3.1.1.tgz#6128cc1a92e5f2c03ec45ae56132086eff1f36b1"
+  integrity sha1-YSjMGpLl8sA+xFrlYTIIbv8fNrE=
+
 vendors@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/vendors/-/vendors-1.0.3.tgz#a6467781abd366217c050f8202e7e50cc9eef8c0"

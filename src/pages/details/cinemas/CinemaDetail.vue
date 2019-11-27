@@ -14,7 +14,7 @@
         :options="swiperOption"
         ref="swiper"
         >
-          <swiperSlide  v-for="(slide, index) in movieList" :key="index">
+          <swiperSlide  v-for="(slide, index) in movieList" :key="index+slide">
             <div class="slide">
               <img :src="slide.img | wh(444.621)" alt="">
             </div>
@@ -44,30 +44,32 @@
         <li 
         :class="{active:index === checkedIndex}"
         v-for="(item,index) in movieList[currentIndex].shows"
-        :key="index"
+        :key="item+index"
         @click="handleClick(index)"
         >
         {{item.dateShow}}
         </li>
       </ul>
     </div>
-    <div class="vip-tips">
-      <div>折扣卡</div>
-      <div>现在开卡，首单2张最高立减6元</div>
-      <div>20元起开卡</div>
-    </div>
+    <VipTop></VipTop>
     <div class="seat-wrap">
       <div class="no-seat" v-if="movieList[currentIndex].shows[checkedIndex].plist.length === 0">
         <div class="tips-box">
           <img :src="NoSeatImg" alt="">
-          <div>影片未上映</div>
+          <div v-if="!movieList[currentIndex].shows[checkedIndex+1]">今日场次已映完</div>
+          <div v-else>影片未上映</div>
         </div>
-        <div class="to-next" @click="toNext">点击查看{{movieList[currentIndex].shows[checkedIndex+1].dateShow.slice(2)}}场次</div>
+        <div class="to-next" 
+        @click="toNext"
+        v-if="movieList[currentIndex].shows[checkedIndex+1]"
+        >
+        点击查看{{movieList[currentIndex].shows[checkedIndex+1].dateShow.slice(2)}}场次
+        </div>
       </div>
       <ul v-else>
         <li 
           v-for="(item,index) in movieList[currentIndex].shows[checkedIndex].plist"
-          :key="index"
+          :key="item+index"
           >
           <div>
             <div class="play-time">
@@ -89,26 +91,7 @@
         </li>
       </ul>
     </div>
-    <div class="tuan-wrap">
-      <div class="tuan-title">影院超值套餐</div>
-      <ul class="tuan-list">
-        <li
-        v-for="(item,index) in dealList.divideDealList"
-        :key="index"
-        >
-          <img :src="item.dealList[0].imageUrl | wh('444.0')" alt="">
-          <div>
-            <div class="tuan-name">
-              <span>{{item.dealList[0].titleTag}}</span>	
-              {{item.dealList[0].title}}
-            </div>
-            <div class="sale-num">{{item.dealList[0].curNumberDesc}}</div>
-            <div class="tuan-price">￥<span>{{item.dealList[0].price}}</span></div>
-            <div class="buy-btn">去购买</div>
-          </div>
-        </li>
-      </ul>
-    </div>
+   <DealList :dealList="dealList"></DealList>
   </div>
 </template>
 
@@ -116,9 +99,10 @@
 import Header from "components/Header"
 import ToApp from "components/ToApp"
 import { get } from "utils/http"
-
 import NoSeatImg from "assets/noSeat.png"
 import CinemaLocation from "./CinemaLocation"
+import DealList from "./DealList"
+import VipTop from "./VipTip"
 // require styles
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
@@ -129,12 +113,15 @@ export default {
     ToApp,
     swiper,
     swiperSlide,
-    CinemaLocation
+    CinemaLocation,
+    VipTop,
+    DealList
   },
   data () {
     return {
       cinemaData:{},
       movieList:{},
+      dealList:{},
       NoSeatImg,
       currentIndex:0,
       checkedIndex:0,
@@ -259,34 +246,6 @@ export default {
       &.active
         $border(0 0 2px 0,#f03d37)
         color #f03d37
-.vip-tips
-  height .42rem
-  background #fff5ea
-  display flex
-  align-items center
-  padding 0 .15rem
-  >div:first-child
-    background #ff941a
-    text-align center
-    line-height .15rem
-    width .34rem
-    height .15rem
-    font-size .1rem
-    color #fff
-    border-radius .02rem
-  >div:nth-child(2)
-    margin-left .1rem
-    color #fa9600
-    font-size .12rem
-    flex 1
-    min-width 0
-    overflow hidden
-    white-space nowrap
-    text-overflow ellipsis
-  >div:last-child
-    font-size .12rem
-    color #999
-    width .7rem
 .seat-wrap 
   background #fff
   .no-seat
@@ -296,6 +255,7 @@ export default {
     flex-direction column
     .tips-box
       margin .3rem auto 0
+      text-align center
       >div
         margin-top .12rem
         line-height 1
@@ -387,65 +347,5 @@ export default {
         color #fff
         border-radius .04rem
         font-size .12rem
-.tuan-wrap
-  margin-top .1rem
-  background #fff
-  padding-left .15rem
-  padding-bottom .2rem
-  .tuan-title
-    height .45rem
-    font-size .15rem
-    color #666
-    line-height .45rem
-  .tuan-list
-    li
-      height 1.18rem
-      padding .13rem 0
-      display flex
-      img 
-        height .92rem
-        width .92rem
-      >div
-        margin-right .15rem
-        margin-left .05rem
-        width 100%
-        position relative
-        .tuan-name
-          font-size .14rem 
-          color #333
-          display flex
-          align-items center
-          span 
-            font-size .1rem
-            color #fff
-            background #f90
-            padding 0.01rem .04rem
-            border-radius .02rem
-            margin-right .07rem
-        .sale-num
-          color #999
-          font-size .12rem
-          position absolute
-          right 0
-          bottom .34rem
-        .tuan-price
-          color #f03d37
-          position absolute
-          left 0
-          bottom 0
-          span
-            font-size .17rem
-        .buy-btn
-          position absolute
-          right 0
-          bottom 0
-          height .27rem
-          width .52rem
-          color #fff
-          padding 0 .08rem
-          background #f03d37
-          font-size .12rem
-          text-align center
-          line-height .27rem
-          border-radius .03rem
+
 </style>

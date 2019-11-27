@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 import Index from 'pages/index/Index'
 import Cinema from 'pages/index/cinemas/Cinema'
-import Mine from 'pages/index/Mine'
+import Login from 'pages/login/Login'
 import Movies from 'pages/index/movies/Movies'
 import Comingsoon from 'pages/index/movies/comingsoon/Comingsoon'
 import Intheater from 'pages/index/movies/Intheater'
@@ -46,14 +46,14 @@ const routes = [
          path : 'cinema',
          name : 'cinema',
          component : Cinema
-       },
-       {
-         path : 'mine',
-         name : 'mine',
-         component : Mine
        }
      ]
    },
+   {
+    path : '/login',
+    name : 'login',
+    component : Login
+  },
    {
      path:"/cinemaDetail/:id",
      name:"cinamaDetail",
